@@ -24,37 +24,3 @@ A single-file HTML webpage for tracking the annual BW vs T3 golf competition. No
 **Teams:** BW (Matthew, Eric, Michael, Dinuka) vs T3 (Sam, Spencer, Gautam, Travis)
 
 **Editable names** — click any player name in the roster to edit it; all matchup tables update automatically.
-
----
-
-## How to Update on GitHub
-
-### Replace the old webpage with this one
-
-1. Go to your GitHub repo
-2. Click `index.html` → click the **pencil (edit) icon** → select **"Delete file"** → commit
-3. On the repo home page click **"Add file" → "Upload files"**
-4. Drag in the new `index.html` and `README.md` → click **"Commit changes"**
-
-That's it. GitHub Pages will rebuild automatically within ~60 seconds.
-
-### Or via Git (command line)
-
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-cp /path/to/new/index.html .
-cp /path/to/README.md .
-git add index.html README.md
-git commit -m "2026 update: French Lick itinerary, editable names, history tab"
-git push
-```
-
----
-
-## GitHub Pages Setup (first time only)
-
-1. Repo **Settings** → **Pages**
-2. Source: **Deploy from a branch**
-3. Branch: `main` / `(root)`
-4. Save — your site will be live at `https://YOUR_USERNAME.github.io/YOUR_REPO`

@@ -71,8 +71,7 @@
       pointer-events: none;
     }
     .trophy-icon {
-      font-size: 56px; margin-bottom: 16px; display: block;
-      filter: drop-shadow(0 0 20px rgba(201,168,76,0.5));
+      margin-bottom: 16px; display: block; text-align: center;
       animation: float 4s ease-in-out infinite;
     }
     @keyframes float {
@@ -436,7 +435,92 @@
 
   <!-- ═══ HERO ═══ -->
   <header class="hero">
-    <span class="trophy-icon">🏆</span>
+    <span class="trophy-icon"><svg width="72" height="108" viewBox="0 -14 72 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 16px rgba(200,210,220,0.5))">
+      <defs>
+        <linearGradient id="bodyG" x1="18" y1="0" x2="54" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="#8a9aaa"/>
+          <stop offset="25%"  stop-color="#d8e2ea"/>
+          <stop offset="50%"  stop-color="#f0f4f7"/>
+          <stop offset="75%"  stop-color="#c4d0d8"/>
+          <stop offset="100%" stop-color="#7a8a98"/>
+        </linearGradient>
+        <linearGradient id="baseG" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+          <stop offset="0%"   stop-color="#7a8a98"/>
+          <stop offset="50%"  stop-color="#e0e8ef"/>
+          <stop offset="100%" stop-color="#7a8a98"/>
+        </linearGradient>
+        <linearGradient id="lidG" x1="24" y1="0" x2="48" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="#8a9aaa"/>
+          <stop offset="40%"  stop-color="#e8f0f5"/>
+          <stop offset="100%" stop-color="#8a9aaa"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ── STACKED BASE ── -->
+      <rect x="10" y="86" width="52" height="5"  rx="2.5" fill="url(#baseG)"/>
+      <rect x="8"  y="89" width="56" height="3"  rx="1.5" fill="#6a7a88"/>
+      <rect x="13" y="82" width="46" height="5"  rx="2"   fill="url(#baseG)"/>
+      <rect x="16" y="78" width="40" height="5"  rx="2"   fill="url(#baseG)"/>
+      <!-- base shadow lines -->
+      <rect x="10" y="87" width="52" height="1" rx="0.5" fill="rgba(0,0,0,0.18)"/>
+      <rect x="13" y="83" width="46" height="1" rx="0.5" fill="rgba(0,0,0,0.15)"/>
+
+      <!-- ── STEM / COLUMN ── -->
+      <path d="M29 68 Q28 74 26 78 L46 78 Q44 74 43 68 Z" fill="url(#bodyG)"/>
+      <rect x="27" y="66" width="18" height="3" rx="1.5" fill="url(#baseG)"/>
+
+      <!-- ── MAIN BODY (wide urn belly) ── -->
+      <path d="M22 36 Q18 46 18 56 Q18 68 36 68 Q54 68 54 56 Q54 46 50 36 Z" fill="url(#bodyG)"/>
+      <!-- engraving bands -->
+      <rect x="19" y="44" width="34" height="2.5" rx="1" fill="rgba(120,140,155,0.5)"/>
+      <rect x="19" y="56" width="34" height="2"   rx="1" fill="rgba(120,140,155,0.45)"/>
+      <!-- belly highlight -->
+      <path d="M25 40 Q23 52 23 62" stroke="rgba(255,255,255,0.3)" stroke-width="3" stroke-linecap="round"/>
+      <!-- subtle engraving texture lines -->
+      <path d="M22 49 Q36 47 50 49" stroke="rgba(255,255,255,0.12)" stroke-width="0.8" fill="none"/>
+      <path d="M21 52 Q36 50 51 52" stroke="rgba(0,0,0,0.08)"       stroke-width="0.8" fill="none"/>
+
+      <!-- ── SHOULDER / NECK TRANSITION ── -->
+      <path d="M26 22 Q23 28 22 36 L50 36 Q49 28 46 22 Z" fill="url(#bodyG)"/>
+      <rect x="23" y="34" width="26" height="3" rx="1.5" fill="url(#baseG)"/>
+      <!-- neck band -->
+      <rect x="27" y="20" width="18" height="3" rx="1.5" fill="url(#baseG)"/>
+
+      <!-- ── LID / COLLAR ── -->
+      <path d="M28 14 Q27 17 26 20 L46 20 Q45 17 44 14 Z" fill="url(#lidG)"/>
+      <ellipse cx="36" cy="14" rx="9"   ry="3"   fill="url(#lidG)"/>
+      <ellipse cx="36" cy="13" rx="7"   ry="2.2" fill="#c4d0d8"/>
+      <ellipse cx="36" cy="12" rx="5"   ry="1.5" fill="#e8f0f5"/>
+      <!-- lid band -->
+      <ellipse cx="36" cy="14" rx="9"   ry="1"   fill="rgba(100,120,135,0.4)"/>
+
+      <!-- ── SPOUT (curves upward-left from neck, like real Claret Jug) ── -->
+      <path d="M28 14 C24 10 18 6 14 2 C12 0 13 -2 16 -1 C19 0 22 4 25 9 C27 12 28 14 28 14"
+            stroke="url(#bodyG)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M28 14 C24 10 19 6 15 2 C13 0 14 -1 16 0 C19 1 22 5 25 10"
+            stroke="rgba(240,244,247,0.45)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <!-- spout tip opening -->
+      <ellipse cx="14.5" cy="1" rx="2.5" ry="1.2" transform="rotate(-30 14.5 1)" fill="#c4d0d8"/>
+
+      <!-- ── FINIAL (top knob) ── -->
+      <ellipse cx="36" cy="10" rx="4"   ry="2.5" fill="url(#lidG)"/>
+      <ellipse cx="36" cy="9"  rx="2.5" ry="1.5" fill="#e8f0f5"/>
+      <circle  cx="36" cy="8"  r="1.5"            fill="#d0dce5"/>
+
+      <!-- ── HANDLE (tall S-curve rising above lid, like real Claret Jug) ── -->
+      <!-- outer -->
+      <path d="M44 14 C50 12 58 8 58 2 C58 -4 52 -5 48 -2 C44 1 42 6 43 10 C44 13 44 14 44 14"
+            stroke="url(#bodyG)" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- lower sweep back down to body -->
+      <path d="M44 14 C46 18 50 24 50 32 C50 38 48 38 46 36"
+            stroke="url(#bodyG)" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- highlight on upper arc -->
+      <path d="M44 14 C50 12 57 8 57 2 C57 -3 52 -4 48 -1 C45 2 43 7 43 11"
+            stroke="rgba(240,244,247,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- highlight on lower sweep -->
+      <path d="M44 15 C46 19 49 25 49 32"
+            stroke="rgba(240,244,247,0.4)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg></span>
     <div class="hero-eyebrow">Four Rounds · Two Teams · One Champion</div>
     <h1 class="hero-title">2026 Clásico Series</h1>
     <p class="hero-subtitle">BW vs T3</p>

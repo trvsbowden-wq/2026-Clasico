@@ -381,6 +381,27 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
+    /* ── MATCH RESULTS ── */
+    .match-results { margin-top:4px; }
+    .mr-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .mr-label { font-family:'Josefin Sans',sans-serif; font-size:10px; letter-spacing:0.15em; color:var(--text-muted); flex:1; }
+    .mr-btns { display:flex; gap:3px; }
+    .mr-btn { font-family:'Josefin Sans',sans-serif; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:5px 11px; border-radius:3px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:var(--text-muted); cursor:pointer; transition:all 0.15s; }
+    .mr-btn:hover { border-color:rgba(255,255,255,0.2); color:var(--text-light); }
+    .mr-btn.active-bw { background:rgba(74,144,196,0.25); border-color:var(--bw-color); color:var(--bw-light); }
+    .mr-btn.active-h  { background:rgba(201,168,76,0.18); border-color:var(--gold); color:var(--gold); }
+    .mr-btn.active-t3 { background:rgba(196,90,74,0.25); border-color:var(--t3-color); color:var(--t3-light); }
+    .round-pts-display { display:flex; align-items:center; justify-content:space-between; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06); font-family:'Josefin Sans',sans-serif; font-size:12px; letter-spacing:0.1em; }
+    /* ── BACK TO TOP ── */
+    .back-to-top { position:fixed; bottom:24px; right:20px; z-index:200; background:var(--green-dark); border:1px solid rgba(201,168,76,0.3); border-radius:50%; width:42px; height:42px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--gold); font-size:16px; opacity:0; pointer-events:none; transition:opacity 0.3s; box-shadow:0 4px 16px rgba(0,0,0,0.4); }
+    .back-to-top.show { opacity:1; pointer-events:auto; }
+    /* ── SHARE BTN ── */
+    .share-btn { background:none; border:1px solid rgba(201,168,76,0.25); border-radius:100px; padding:5px 14px; font-family:'Josefin Sans',sans-serif; font-size:10px; letter-spacing:0.2em; color:var(--gold); cursor:pointer; transition:background 0.2s; vertical-align:middle; margin-left:10px; }
+    .share-btn:hover { background:rgba(201,168,76,0.1); }
+    /* ── SAVE INDICATOR ── */
+    .save-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--gold); margin-left:6px; opacity:0; transition:opacity 0.5s; vertical-align:middle; }
+    .save-dot.show { opacity:1; }
+
     @media (max-width: 600px) {
       .teams-banner { flex-direction: column; }
       .team-vs { width: auto; height: 1px; padding: 12px 0; }
@@ -409,7 +430,7 @@
 </head>
 <body>
 
-  <div class="edit-hint">✎ &nbsp;<span>Click any player name to edit — all matchups update automatically</span></div>
+  <div class="edit-hint">✎ &nbsp;<span>Click any player name to edit — all matchups update automatically</span><button class="share-btn" onclick="sharePage()">⬆ Share</button><span class="save-dot" id="save-dot"></span></div>
 
   <!-- TAB NAV (rendered after hero via JS move, but placed here for sticky positioning) -->
 
@@ -452,6 +473,17 @@
     <div class="points-header">
       <div class="points-eyebrow">French Lick, Indiana</div>
       <h2 class="points-title">Itinerary</h2>
+      <div style="margin-top:16px;">
+        <a href="https://maps.google.com/?q=French+Lick+Springs+Hotel,+8670+W+State+Rd+56,+French+Lick,+IN+47432" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:100px;padding:10px 20px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.15em;color:var(--gold-light);text-decoration:none;">
+          📍 French Lick Springs Hotel &nbsp;·&nbsp; 8670 W State Rd 56, French Lick, IN 47432
+        </a>
+        <a href="https://forecast.weather.gov/MapClick.php?CityName=French+Lick&state=IN&site=IND&textField1=38.5484&textField2=-86.6197" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:100px;padding:10px 20px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.15em;color:var(--gold-light);text-decoration:none;margin-top:10px;">
+          🌤 Weather Forecast &nbsp;·&nbsp; French Lick, IN
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1lqFGCjlKjga1JDT78_tywGcWKr_w0ofIDFdYJ-tpYqw/edit?gid=0#gid=0" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:100px;padding:10px 20px;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.15em;color:var(--gold-light);text-decoration:none;margin-top:10px;">
+          ✈️ Flight Info &nbsp;·&nbsp; View Google Sheet
+        </a>
+      </div>
     </div>
 
     <!-- Day 1 -->
@@ -483,14 +515,15 @@
           <div class="round-title">Round 1 &amp; 2</div>
         </div>
       </div>
+      <div class="tip-box" style="margin-bottom:20px;">💡 Donald Ross Course ranked <strong style="color:var(--gold);">#8 in Indiana — Golf Digest</strong> &nbsp;·&nbsp; <strong style="color:var(--gold);">#2 in Indiana — Golfweek</strong></div>
       <table class="match-table">
         <tbody>
           <tr><td class="match-num" style="width:90px;">6:00am</td><td>French Lick Mercantile opens — coffee &amp; grab-and-go breakfast</td></tr>
-          <tr><td class="match-num">8:00am</td><td>⛳ Tee Time</td></tr>
-          <tr><td class="match-num">8:12am</td><td>⛳ Tee Time</td></tr>
+          <tr><td class="match-num">8:00am</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 1, Match 1</span></td></tr>
+          <tr><td class="match-num">8:12am</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 1, Match 2</span></td></tr>
           <tr><td class="match-num">1:00pm</td><td>Quick Lunch @ Hagan's Club House Restaurant</td></tr>
-          <tr><td class="match-num">2:12pm</td><td>⛳ Tee Time</td></tr>
-          <tr><td class="match-num">2:24pm</td><td>⛳ Tee Time</td></tr>
+          <tr><td class="match-num">2:12pm</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 2, Match 1</span></td></tr>
+          <tr><td class="match-num">2:24pm</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 2, Match 2</span></td></tr>
           <tr><td class="match-num">8:15pm</td><td>Dinner @ 1875: The Steakhouse</td></tr>
           <tr><td class="match-num">8:38pm</td><td>🌅 Sunset</td></tr>
           <tr><td class="match-num">9:30pm</td><td>Vulnerability Circle</td></tr>
@@ -511,14 +544,15 @@
       <table class="match-table">
         <tbody>
           <tr><td class="match-num" style="width:90px;">6:00am</td><td>French Lick Mercantile opens — coffee &amp; grab-and-go breakfast</td></tr>
-          <tr><td class="match-num">7:30am</td><td>⛳ Tee Time</td></tr>
-          <tr><td class="match-num">7:44am</td><td>⛳ Tee Time</td></tr>
+          <tr><td class="match-num">7:30am</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 3, Matches 1 &amp; 2</span></td></tr>
+          <tr><td class="match-num">7:44am</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 3, Matches 3 &amp; 4</span></td></tr>
           <tr><td class="match-num">12:15pm</td><td>Quick Lunch @ The Mansion</td></tr>
-          <tr><td class="match-num">1:34pm</td><td>⛳ Tee Time</td></tr>
-          <tr><td class="match-num">1:48pm</td><td>⛳ Tee Time</td></tr>
+          <tr><td class="match-num">1:34pm</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 4, Scramble (BW)</span></td></tr>
+          <tr><td class="match-num">1:48pm</td><td>⛳ Tee Time <span style="color:var(--text-muted);font-size:11px;font-style:italic;">· Rd 4, Scramble (T3)</span></td></tr>
           <tr><td class="match-num">6:00pm</td><td>🏆 Trophy Presentation</td></tr>
           <tr><td class="match-num">7:30pm</td><td>Dinner @ Ballard's — hotel restaurant, casual/upscale</td></tr>
           <tr><td class="match-num">8:39pm</td><td>🌅 Sunset</td></tr>
+          <tr><td class="match-num">9:00pm</td><td>🏃 Foot Race</td></tr>
         </tbody>
       </table>
     </div>
@@ -670,49 +704,37 @@
       <div class="points-eyebrow">Track the Battle</div>
       <h2 class="points-title">Live Scorecard</h2>
     </div>
-    <div class="score-grid">
+    <div class="score-grid" id="score-grid">
       <div class="score-round-card">
         <div class="score-round-label">Round 1 · Shamble</div>
-        <div class="score-row">
-          <span class="score-team-label bw">BW</span>
-          <input class="score-input" type="number" min="0" max="2" step="0.5" value="0" id="r1bw" oninput="updateTotals()"/>
-        </div>
-        <div class="score-row">
-          <span class="score-team-label t3">T3</span>
-          <input class="score-input" type="number" min="0" max="2" step="0.5" value="0" id="r1t3" oninput="updateTotals()"/>
+        <div class="match-results" id="r1-matches"></div>
+        <div class="round-pts-display">
+          <span class="score-team-label bw">BW &nbsp;<strong id="r1-bw-pts">0</strong> pts</span>
+          <span class="score-team-label t3">T3 &nbsp;<strong id="r1-t3-pts">0</strong> pts</span>
         </div>
       </div>
       <div class="score-round-card">
         <div class="score-round-label">Round 2 · Four-Ball</div>
-        <div class="score-row">
-          <span class="score-team-label bw">BW</span>
-          <input class="score-input" type="number" min="0" max="2" step="0.5" value="0" id="r2bw" oninput="updateTotals()"/>
-        </div>
-        <div class="score-row">
-          <span class="score-team-label t3">T3</span>
-          <input class="score-input" type="number" min="0" max="2" step="0.5" value="0" id="r2t3" oninput="updateTotals()"/>
+        <div class="match-results" id="r2-matches"></div>
+        <div class="round-pts-display">
+          <span class="score-team-label bw">BW &nbsp;<strong id="r2-bw-pts">0</strong> pts</span>
+          <span class="score-team-label t3">T3 &nbsp;<strong id="r2-t3-pts">0</strong> pts</span>
         </div>
       </div>
       <div class="score-round-card">
         <div class="score-round-label">Round 3 · Singles</div>
-        <div class="score-row">
-          <span class="score-team-label bw">BW</span>
-          <input class="score-input" type="number" min="0" max="4" step="0.5" value="0" id="r3bw" oninput="updateTotals()"/>
-        </div>
-        <div class="score-row">
-          <span class="score-team-label t3">T3</span>
-          <input class="score-input" type="number" min="0" max="4" step="0.5" value="0" id="r3t3" oninput="updateTotals()"/>
+        <div class="match-results" id="r3-matches"></div>
+        <div class="round-pts-display">
+          <span class="score-team-label bw">BW &nbsp;<strong id="r3-bw-pts">0</strong> pts</span>
+          <span class="score-team-label t3">T3 &nbsp;<strong id="r3-t3-pts">0</strong> pts</span>
         </div>
       </div>
       <div class="score-round-card">
         <div class="score-round-label">Round 4 · Scramble</div>
-        <div class="score-row">
-          <span class="score-team-label bw">BW</span>
-          <input class="score-input" type="number" min="0" max="4" step="0.5" value="0" id="r4bw" oninput="updateTotals()"/>
-        </div>
-        <div class="score-row">
-          <span class="score-team-label t3">T3</span>
-          <input class="score-input" type="number" min="0" max="4" step="0.5" value="0" id="r4t3" oninput="updateTotals()"/>
+        <div class="match-results" id="r4-matches"></div>
+        <div class="round-pts-display">
+          <span class="score-team-label bw">BW &nbsp;<strong id="r4-bw-pts">0</strong> pts</span>
+          <span class="score-team-label t3">T3 &nbsp;<strong id="r4-t3-pts">0</strong> pts</span>
         </div>
       </div>
     </div>
@@ -747,6 +769,24 @@
       <div class="points-eyebrow">All-Time Results</div>
       <h2 class="points-title">Historical Results</h2>
     </div>
+    <!-- 2026 -->
+    <div class="round-card" style="margin-bottom:20px;border-color:rgba(201,168,76,0.35);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div>
+          <div class="round-format">2026 · French Lick, Indiana</div>
+          <div class="round-title" style="font-size:24px;">In Progress ⏳</div>
+        </div>
+        <div class="points-pill" style="align-self:center;">Champion: <strong style="color:var(--text-muted);">TBD</strong></div>
+      </div>
+      <table class="match-table">
+        <thead><tr><th>Course</th><th style="text-align:right;color:var(--gold);">GD Top 100 Public</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.golfdigest.com/courses/in/french-lick-resort-donald-ross-course" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Donald Ross Course</a></td><td class="pts-num" style="font-size:12px;color:var(--text-muted);">#8 IN · #2 IN (GW)</td></tr>
+          <tr><td><a href="https://www.golfdigest.com/courses/in/the-pete-dye-course-at-french-lick" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Pete Dye Course</a></td><td class="pts-num" style="font-size:14px;">#17</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <!-- 2025 -->
     <div class="round-card" style="margin-bottom:20px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
@@ -760,7 +800,7 @@
         <thead><tr><th>Course</th><th style="text-align:right;color:var(--gold);">GD Top 100 Public</th></tr></thead>
         <tbody>
           <tr><td><a href="https://www.golfdigest.com/courses/mi/forest-dunes-golf-club" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Forest Dunes</a></td><td class="pts-num" style="font-size:14px;">#37</td></tr>
-          <tr><td><a href="https://www.golfdigest.com/courses/mi/forest-dunes-the-bear" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">The Bear</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
+          <tr><td><a href="https://www.golfdigest.com/courses/mi/grand-traverse-resort-and-spa-the-bear" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">The Bear</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
           <tr><td><a href="https://www.golfdigest.com/courses/mi/arcadia-bluffs-golf-club-bluffs-course" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Arcadia Bluffs (Bluffs)</a></td><td class="pts-num" style="font-size:14px;">#16</td></tr>
           <tr><td><a href="https://www.golfdigest.com/courses/mi/forest-dunes-the-loop-black-course-clockwise" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">The Loop (Black)</a></td><td class="pts-num" style="font-size:14px;">#63</td></tr>
           <tr><td><a href="https://www.golfdigest.com/courses/mi/forest-dunes-the-loop-red-course-counterclockwise" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">The Loop (Red)</a></td><td class="pts-num" style="font-size:14px;">#68</td></tr>
@@ -780,9 +820,9 @@
       <table class="match-table">
         <thead><tr><th>Course</th><th style="text-align:right;color:var(--gold);">GD Top 100 Public</th></tr></thead>
         <tbody>
-          <tr><td><a href="https://www.golfdigest.com/courses/sc/heron-point-by-pete-dye" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Heron Point</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
+          <tr><td><a href="https://www.golfdigest.com/courses/sc/the-sea-pines-resort-heron-point" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Heron Point</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
           <tr><td><a href="https://www.golfdigest.com/courses/sc/harbour-town-golf-links" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Harbour Town</a></td><td class="pts-num" style="font-size:14px;">#28</td></tr>
-          <tr><td><a href="https://www.golfdigest.com/courses/sc/atlantic-dunes-by-davis-love-iii" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Atlantic Dunes</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
+          <tr><td><a href="https://www.golfdigest.com/courses/sc/the-sea-pines-resort-atlantic-dunes" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Atlantic Dunes</a></td><td class="pts-num" style="font-size:14px;color:var(--text-muted);">NR</td></tr>
         </tbody>
       </table>
     </div>
@@ -801,7 +841,7 @@
         <tbody>
           <tr><td><a href="https://www.golfdigest.com/courses/mn/rush-creek-golf-club" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Rush Creek</a></td><td class="pts-num" style="font-size:12px;color:var(--text-muted);">Unranked MN*</td></tr>
           <tr><td><a href="https://www.golfdigest.com/courses/mn/stoneridge-golf-club" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">StoneRidge</a></td><td class="pts-num" style="font-size:14px;">#19 MN</td></tr>
-          <tr><td><a href="https://www.golfdigest.com/courses/mn/loggers-trail-golf-course" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Loggers Trail</a></td><td class="pts-num" style="font-size:12px;color:var(--text-muted);">NR</td></tr>
+          <tr><td><a href="https://www.golfdigest.com/courses/mn/loggers-trail-golf-course-loggers-trail" target="_blank" style="color:var(--text-light);text-decoration:underline;text-underline-offset:3px;">Loggers Trail</a></td><td class="pts-num" style="font-size:12px;color:var(--text-muted);">NR</td></tr>
         </tbody>
       </table>
       <div class="tip-box" style="margin-top:16px;">* Rush Creek was formerly ranked inside Golf Digest's Top 15 in Minnesota but no longer appears on the current Best in State list.</div>
@@ -813,34 +853,154 @@
   </section>
   </div><!-- /history-tab -->
 
+  <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
   <footer>
     <p>BW vs T3 &nbsp;·&nbsp; 2026 Clásico Series &nbsp;·&nbsp; May the best team win 🏆</p>
   </footer>
 
   <script>
-    // ═══════════════════════════════════════════
-    //  CENTRAL PLAYER DATA
-    //  All names flow from here to every matchup
-    // ═══════════════════════════════════════════
+    // ═══ PLAYER DATA ═══
     const players = {
       bw: ['Matthew', 'Eric', 'Michael', 'Dinuka'],
       t3: ['Sam', 'Spencer', 'Gautam', 'Travis']
     };
-
-    // Matchup structure — index pairs into players arrays
-    // Rounds 1 & 2: pair matchups  { bw:[idx,idx], t3:[idx,idx] }
-    // Round 3: singles             [bwIdx, t3Idx]
     const matchups = {
       r1: [ { bw:[0,1], t3:[0,1] }, { bw:[2,3], t3:[2,3] } ],
       r2: [ { bw:[0,2], t3:[0,2] }, { bw:[1,3], t3:[1,3] } ],
       r3: [ [0,0], [1,1], [2,2], [3,3] ]
     };
 
-    // ── Build an editable name span ──
+    // ═══ MATCH RESULTS (persisted via localStorage) ═══
+    const STORE_KEY = 'clasico2026_results';
+    let results = { r1:[null,null], r2:[null,null], r3:[null,null,null,null], r4:null };
+    try { const s = localStorage.getItem(STORE_KEY); if (s) results = JSON.parse(s); } catch(e) {}
+
+    function saveResults() {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(results)); } catch(e) {}
+      const dot = document.getElementById('save-dot');
+      dot.classList.add('show');
+      setTimeout(() => dot.classList.remove('show'), 1500);
+    }
+
+    function calcPts(roundResults, isScramble) {
+      let bw = 0, t3 = 0;
+      if (isScramble) {
+        const r = roundResults;
+        if (r === 'bw') bw = 4;
+        else if (r === 't3') t3 = 4;
+        else if (r === 'h') { bw = 2; t3 = 2; }
+      } else {
+        (roundResults || []).forEach(r => {
+          if (r === 'bw') bw += 1;
+          else if (r === 't3') t3 += 1;
+          else if (r === 'h') { bw += 0.5; t3 += 0.5; }
+        });
+      }
+      return [bw, t3];
+    }
+
+    function setResult(round, idx, val, btn) {
+      if (round === 'r4') {
+        results.r4 = results.r4 === val ? null : val;
+      } else {
+        results[round][idx] = results[round][idx] === val ? null : val;
+      }
+      saveResults();
+      renderMatchButtons();
+      updateTotals();
+    }
+
+    function renderMatchButtons() {
+      // Rounds 1 & 2
+      ['r1','r2'].forEach(round => {
+        const container = document.getElementById(round + '-matches');
+        if (!container) return;
+        container.innerHTML = '';
+        matchups[round].forEach((m, mi) => {
+          const bwStr = m.bw.map(i => players.bw[i]).join(' & ');
+          const t3Str = m.t3.map(i => players.t3[i]).join(' & ');
+          const cur = results[round][mi];
+          container.innerHTML += `
+            <div class="mr-row">
+              <span class="mr-label">${bwStr} vs ${t3Str}</span>
+              <div class="mr-btns">
+                <button class="mr-btn ${cur==='bw'?'active-bw':''}" onclick="setResult('${round}',${mi},'bw',this)">BW</button>
+                <button class="mr-btn ${cur==='h'?'active-h':''}"  onclick="setResult('${round}',${mi},'h',this)">½</button>
+                <button class="mr-btn ${cur==='t3'?'active-t3':''}" onclick="setResult('${round}',${mi},'t3',this)">T3</button>
+              </div>
+            </div>`;
+        });
+        const [bw,t3] = calcPts(results[round], false);
+        const fmt = n => n%1===0?n:n.toFixed(1);
+        document.getElementById(round+'-bw-pts').textContent = fmt(bw);
+        document.getElementById(round+'-t3-pts').textContent = fmt(t3);
+      });
+
+      // Round 3 singles
+      const r3c = document.getElementById('r3-matches');
+      if (r3c) {
+        r3c.innerHTML = '';
+        matchups.r3.forEach(([bi,ti], mi) => {
+          const cur = results.r3[mi];
+          r3c.innerHTML += `
+            <div class="mr-row">
+              <span class="mr-label">${players.bw[bi]} vs ${players.t3[ti]}</span>
+              <div class="mr-btns">
+                <button class="mr-btn ${cur==='bw'?'active-bw':''}" onclick="setResult('r3',${mi},'bw',this)">BW</button>
+                <button class="mr-btn ${cur==='h'?'active-h':''}"  onclick="setResult('r3',${mi},'h',this)">½</button>
+                <button class="mr-btn ${cur==='t3'?'active-t3':''}" onclick="setResult('r3',${mi},'t3',this)">T3</button>
+              </div>
+            </div>`;
+        });
+        const [bw,t3] = calcPts(results.r3, false);
+        const fmt = n => n%1===0?n:n.toFixed(1);
+        document.getElementById('r3-bw-pts').textContent = fmt(bw);
+        document.getElementById('r3-t3-pts').textContent = fmt(t3);
+      }
+
+      // Round 4 scramble
+      const r4c = document.getElementById('r4-matches');
+      if (r4c) {
+        const cur = results.r4;
+        r4c.innerHTML = `
+          <div class="mr-row" style="justify-content:center;">
+            <div class="mr-btns">
+              <button class="mr-btn ${cur==='bw'?'active-bw':''}" onclick="setResult('r4',0,'bw',this)">BW Wins</button>
+              <button class="mr-btn ${cur==='h'?'active-h':''}"  onclick="setResult('r4',0,'h',this)">Tie</button>
+              <button class="mr-btn ${cur==='t3'?'active-t3':''}" onclick="setResult('r4',0,'t3',this)">T3 Wins</button>
+            </div>
+          </div>`;
+        const [bw,t3] = calcPts(results.r4, true);
+        document.getElementById('r4-bw-pts').textContent = bw;
+        document.getElementById('r4-t3-pts').textContent = t3;
+      }
+    }
+
+    function updateTotals() {
+      const fmt = n => n%1===0?n:n.toFixed(1);
+      const [r1bw,r1t3] = calcPts(results.r1, false);
+      const [r2bw,r2t3] = calcPts(results.r2, false);
+      const [r3bw,r3t3] = calcPts(results.r3, false);
+      const [r4bw,r4t3] = calcPts(results.r4, true);
+      const bw = r1bw+r2bw+r3bw+r4bw, t3 = r1t3+r2t3+r3t3+r4t3;
+      document.getElementById('total-bw').textContent = fmt(bw);
+      document.getElementById('total-t3').textContent = fmt(t3);
+      const statusEl = document.getElementById('status-text');
+      const lbw = document.getElementById('leader-bw');
+      const lt3 = document.getElementById('leader-t3');
+      lbw.innerHTML = ''; lt3.innerHTML = '';
+      if (bw===0 && t3===0) { statusEl.textContent = 'Enter results above'; return; }
+      const diff = Math.abs(bw-t3);
+      if (bw>t3) { statusEl.textContent = `BW leads by ${fmt(diff)} pt${diff!==1?'s':''}`; lbw.innerHTML='<span class="leader-badge bw">Leading</span>'; }
+      else if (t3>bw) { statusEl.textContent = `T3 leads by ${fmt(diff)} pt${diff!==1?'s':''}`; lt3.innerHTML='<span class="leader-badge t3">Leading</span>'; }
+      else { statusEl.textContent='All Square'; lbw.innerHTML='<span class="leader-badge tied">Tied</span>'; lt3.innerHTML='<span class="leader-badge tied">Tied</span>'; }
+    }
+
+    // ═══ EDITABLE NAMES ═══
     function makeEditable(team, idx) {
       const wrap = document.createElement('div');
       wrap.className = 'name-wrap';
-
       const span = document.createElement('span');
       span.className = 'editable-name';
       span.contentEditable = 'true';
@@ -848,123 +1008,77 @@
       span.textContent = players[team][idx];
       span.dataset.team = team;
       span.dataset.idx  = idx;
-
-      span.addEventListener('input', () => {
-        players[team][idx] = span.textContent || '';
-        renderMatchups();
-      });
-      span.addEventListener('keydown', e => {
-        if (e.key === 'Enter') { e.preventDefault(); span.blur(); }
-      });
-      // Stop the cursor accidentally landing outside
-      span.addEventListener('focus', () => {
-        // move cursor to end
-        const range = document.createRange();
-        const sel = window.getSelection();
-        range.selectNodeContents(span);
-        range.collapse(false);
-        sel.removeAllRanges();
-        sel.addRange(range);
-      });
-
+      span.addEventListener('input', () => { players[team][idx] = span.textContent || ''; renderMatchups(); renderMatchButtons(); });
+      span.addEventListener('keydown', e => { if (e.key==='Enter') { e.preventDefault(); span.blur(); } });
+      span.addEventListener('focus', () => { const r=document.createRange(),s=window.getSelection(); r.selectNodeContents(span); r.collapse(false); s.removeAllRanges(); s.addRange(r); });
       wrap.appendChild(span);
       return wrap;
     }
 
-    // ── Render roster lists ──
     function renderRoster() {
-      ['bw', 't3'].forEach(team => {
-        const ul = document.getElementById('roster-' + team);
+      ['bw','t3'].forEach(team => {
+        const ul = document.getElementById('roster-'+team);
         ul.innerHTML = '';
-        players[team].forEach((_, i) => {
-          const li = document.createElement('li');
-          li.appendChild(makeEditable(team, i));
-          ul.appendChild(li);
-        });
+        players[team].forEach((_,i) => { const li=document.createElement('li'); li.appendChild(makeEditable(team,i)); ul.appendChild(li); });
       });
     }
 
-    // ── Render all matchup tables from player data ──
     function renderMatchups() {
-      // Rounds 1 & 2 — pair format
-      ['r1', 'r2'].forEach(round => {
-        const tbody = document.getElementById(round + '-body');
+      ['r1','r2'].forEach(round => {
+        const tbody = document.getElementById(round+'-body');
         tbody.innerHTML = '';
-        matchups[round].forEach((m, mi) => {
-          const bwStr = m.bw.map(i => players.bw[i]).join(' & ');
-          const t3Str = m.t3.map(i => players.t3[i]).join(' & ');
+        matchups[round].forEach((m,mi) => {
           const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td class="match-num">Match ${mi + 1}</td>
-            <td class="player-bw">${bwStr}</td>
-            <td class="vs-badge">vs</td>
-            <td class="player-t3">${t3Str}</td>`;
+          tr.innerHTML = `<td class="match-num">Match ${mi+1}</td><td class="player-bw">${m.bw.map(i=>players.bw[i]).join(' & ')}</td><td class="vs-badge">vs</td><td class="player-t3">${m.t3.map(i=>players.t3[i]).join(' & ')}</td>`;
           tbody.appendChild(tr);
         });
       });
-
-      // Round 3 — singles
       const r3 = document.getElementById('r3-body');
       r3.innerHTML = '';
-      matchups.r3.forEach(([bi, ti], mi) => {
+      matchups.r3.forEach(([bi,ti],mi) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="match-num">Match ${mi + 1}</td>
-          <td class="player-bw">${players.bw[bi]}</td>
-          <td class="vs-badge">vs</td>
-          <td class="player-t3">${players.t3[ti]}</td>`;
+        tr.innerHTML = `<td class="match-num">Match ${mi+1}</td><td class="player-bw">${players.bw[bi]}</td><td class="vs-badge">vs</td><td class="player-t3">${players.t3[ti]}</td>`;
         r3.appendChild(tr);
       });
     }
 
-    // ── Live scorecard ──
-    function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
-
-    function updateTotals() {
-      const bw = val('r1bw') + val('r2bw') + val('r3bw') + val('r4bw');
-      const t3 = val('r1t3') + val('r2t3') + val('r3t3') + val('r4t3');
-      const fmt = n => n % 1 === 0 ? n : n.toFixed(1);
-      document.getElementById('total-bw').textContent = fmt(bw);
-      document.getElementById('total-t3').textContent = fmt(t3);
-
-      const statusEl = document.getElementById('status-text');
-      const lbw = document.getElementById('leader-bw');
-      const lt3 = document.getElementById('leader-t3');
-      lbw.innerHTML = ''; lt3.innerHTML = '';
-
-      if (bw === 0 && t3 === 0) { statusEl.textContent = 'Enter scores above'; return; }
-      const diff = Math.abs(bw - t3);
-      if (bw > t3) {
-        statusEl.textContent = `BW leads by ${fmt(diff)} pt${diff !== 1 ? 's' : ''}`;
-        lbw.innerHTML = '<span class="leader-badge bw">Leading</span>';
-      } else if (t3 > bw) {
-        statusEl.textContent = `T3 leads by ${fmt(diff)} pt${diff !== 1 ? 's' : ''}`;
-        lt3.innerHTML = '<span class="leader-badge t3">Leading</span>';
+    // ═══ SHARE ═══
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({ title: '2026 Clásico Series', url: window.location.href });
       } else {
-        statusEl.textContent = 'All Square';
-        lbw.innerHTML = '<span class="leader-badge tied">Tied</span>';
-        lt3.innerHTML = '<span class="leader-badge tied">Tied</span>';
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const btn = document.querySelector('.share-btn');
+          btn.textContent = '✓ Copied!';
+          setTimeout(() => btn.textContent = '⬆ Share', 2000);
+        });
       }
     }
 
-    // ── Tab switching ──
+    // ═══ BACK TO TOP ═══
+    const bttBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => bttBtn.classList.toggle('show', window.scrollY > 400));
+
+    // ═══ TAB SWITCHING ═══
     function switchTab(panelId, btn) {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(panelId).classList.add('active');
       btn.classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // ── Scroll reveal ──
+    // ═══ SCROLL REVEAL ═══
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.section, .points-section, .scorecard-section')
-      .forEach(el => observer.observe(el));
+    document.querySelectorAll('.section,.points-section,.scorecard-section').forEach(el => observer.observe(el));
 
-    // ── Init ──
+    // ═══ INIT ═══
     renderRoster();
     renderMatchups();
+    renderMatchButtons();
+    updateTotals();
   </script>
 </body>
 </html>
